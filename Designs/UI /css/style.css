@@ -1,0 +1,11 @@
+
+.container{
+	margin: 100px auto !important;
+    width: 50% !important;
+    border-color: red;
+    border: 2px solid blue;
+}
+.form-control
+{
+	width: 400px !important;
+}
