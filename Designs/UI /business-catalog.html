@@ -1,48 +1,94 @@
-
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="css/style.css">
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+<head>
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 
-    </head>
+</head>
 <body>
-        <div class="container">
-                <h2>Business catalogs</h2>
-                <form action="#">
-                  <div class="form-group">
-                    <input type="text" class="form-control" id="search" placeholder="Enter a business to search" name="search">
-                  </div>
-                  <button type="button" class="btn btn-default">Search</button>
-                </form>
-                 <div>
-                <table>
-                  <tr>
-                    <th>
-                      Business name
-                    </th>
-                    <th>
-                      Business category
-                    </th>
-                    <th>
-                      Business country
-                    </th>
-                  </tr>
-                  <tr>
-                    <td>
-                      Tech soft
-                    </td>
-                    <td>
-                      One
-                    </td>
-                    <td>
-                      Kenya
-                    </td>
 
-                  </tr>
-                </table>
-              </div>
-              </div>            
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">WeConnect </a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="home.html">Home</a></li>
+            <li class="active"><a href="business-catalog.html">Business catalog</a></li>
+            <li><a href="business_regForm.html">Register Business</a></li>
+            <li><a href="business-profile.html">Business profile</a></li>
+            <li><a href="business_updateprofile.html">Update Business Profile</a></li>
+            <li><a href="index.html">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h2>Business catalogs</h2>
+    <form action="#">
+        <div class="form-group">
+            <input type="text" class="form-control" id="search" placeholder="Enter a business to search" name="search">
+        </div>
+        <div class="form-group">
+            <label for="BusinessCategory" class="col-sm-3 control-label">Category</label>
+            <div class="col-sm-9">
+                <select id="BusinessCategory" class="form-control">
+                    <option>All</option>
+                    <option>One</option>
+                    <option>Two</option>
+                    <option>Three</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="country" class="col-sm-3 control-label">Country</label>
+            <div class="col-sm-9">
+                <select id="country" class="form-control">
+                    <option>All</option>
+                    <option>Kenya</option>
+                    <option>Uganda</option>
+                    <option>Tanzania</option>
+                    <option>Ethiopia</option>
+                    <option>USA</option>
+                    <option>Japan</option>
+                    <option>India</option>
+                    <option>Others</option>
+                </select>
+            </div>
+        </div>
+        <button type="button" class="btn btn-default">Search</button>
+    </form>
+    <h2>Below searched result</h2>
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Business Name</th>
+                <th>Category</th>
+                <th>Country</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Business one</td>
+                <td>Business two</td>
+                <td>Business Three</td>
+            </tr>
+            <tr>
+                <td>One</td>
+                <td>One</td>
+                <td>One</td>
+            </tr>
+            <tr>
+                <td>Kenya</td>
+                <td>Uganda</td>
+                <td>Tanzania</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>
