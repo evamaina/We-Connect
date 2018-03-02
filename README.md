@@ -14,5 +14,31 @@ WeConnect provides a platform that brings businesses and individuals together. T
 5.Users can give reviews about a business.
 
 6.Users can search for businesses based on business location or business category.
+### Built with:
+Html/css
+
+Bootstrap
+
+#### Prerequisites
+The templates make use of HTML and Css and will accomadate future integration of a python SQLAlchemy database and flask. This program can run on any web browser conviniently
+
+##### Contributing
+1. Fork this project to your GitHub account.
+
+2. Create a branch for version control.
+
+3. Proceed to make modifications to your fork.
+
+4. Send pull request from your fork's branch to my master branch.
+
+###### Author
+
+Eva Maina
+
+
+
+
+
+
 
 
