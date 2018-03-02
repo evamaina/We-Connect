@@ -31,7 +31,7 @@ The templates make use of HTML and Css and will accomadate future integration of
 
 4. Send pull request from your fork's branch to my master branch.
 
-###### Author
+###### Author:
 
 Eva Maina
 
