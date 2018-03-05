@@ -1,0 +1,120 @@
+from flask import Flask, request, jsonify
+import uuid
+from werkzeug.security import generate_password_hash, check_password_hash
+
+app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'thisissecret'
+
+users = []
+business_list = []
+
+
+@app.route('/api/auth/register', methods=['POST'])
+def register_user():
+    request_data = request.get_json()
+    user = {'username': request_data['username'], 'password': request_data['password'], 'id': len(users) + 1}
+    username = request_data['username']
+
+    if (len(users) > 0):
+        for x, k in enumerate(users):
+            if k['username'] == username:
+                return jsonify({'Message': "Username alread exists : " + username}), 200
+            else:
+                users.append(user)
+                return jsonify({'Message': 'User registered successfully'}), 201
+    else:
+        users.append(user)
+        return jsonify({'Message': 'User registered successfully'}), 201
+
+
+@app.route('/api/auth/login', methods=['POST'])
+def login_user():
+    request_data = request.get_json()
+    username = request_data['username']
+    password = request_data['password']
+
+    for x, k in enumerate(users):
+        if k['username'] == username and k['password'] == password:
+            return jsonify({'Message': "User :" + username + " logged in Successifuly"}), 200
+    else:
+        return jsonify({'Message': 'User does not exist or wrong username/password.'}), 404
+
+
+
+
+
+
+@app.route('/api/auth/logout', methods=['POST'])
+def logout_user():
+    request_data = request.get_json()
+    username = request_data['username']
+    password = request_data['password']
+
+    for x, k in enumerate(users):
+        if k['username'] == username and k['password'] == password:
+            return jsonify({'Message': "User :" + username + " logged out Successifuly"}), 200
+    else:
+        return jsonify({'Message': 'User does not exist or user is not logged in.'}), 404
+
+
+
+@app.route('/api/auth/reset-password', methods=['POST'])
+def reset_password():
+    request_data = request.get_json()
+    username = request_data['username']
+    newpassword = request_data['newpassword']
+
+    for x, k in enumerate(users):
+        if k['username'] == username and k['newpassword'] == newpassword:
+            return jsonify({'Message': "User :" + username + " password-reset done Successifuly"}), 200
+    else:
+        return jsonify({'Message': 'Enter the new password and try again.'}), 404
+
+
+
+    """Business rout and function """
+    # register business: a method that add a busness to the list
+
+
+@app.route('/api/business', methods=['POST'])
+def register_business():
+    request_data = request.get_json()
+    business = {'business_name': request_data['business_name'], 'country': request_data['country'],
+                'id': len(business_list) + 1}
+    business_name = request_data['business_name']
+
+    if (len(business_list) > 0):
+        for x, k in enumerate(business_list):
+            if k['business_name'] == business_name:
+                return jsonify({'Message': "business alread exists, use a different name from : " + business_name}), 200
+            else:
+                business_list.append(business)
+                return jsonify({'Message': 'Business registered successfully'}), 201
+    else:
+        business_list.append(business)
+        return jsonify({'Message': 'business registered successfully'}), 201
+
+
+@app.route('/api/businesses/<businessId>', methods=['PUT'])
+def update_business():
+    request_data = request.get_json()
+    business = {'business_name': request_data['business_name'], 'country': request_data['country'],
+                'id': len(business_list) + 1}
+    business_name = request_data['business_name']
+
+    if (len(business_list) > 0):
+        for x, k in enumerate(business_list):
+            if k['business_name'] == business_name:
+                return jsonify({'Message': "business already exists, use a different name from : " + business_name}), 200
+            else:
+                business_list.append(business)
+                return jsonify({'Message': 'Business updated successfully'}), 201
+    else:
+        business_list.append(business)
+        return jsonify({'Message': 'business registered successfully'}), 201
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
