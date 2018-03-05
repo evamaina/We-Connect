@@ -14,11 +14,9 @@ from src.api import app
 class UserAuthClass(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
-    """
-    Test user registration and login.
-    """
+
     def test_user_can_register(self):
-        """Test new user can be added to the system."""
+        """Test new user can be registered to the system."""
         response = self.app.post("/api/auth/register",
                                     data=json.dumps(dict(username="testusername",
                                                     password="testpassword")),
@@ -26,4 +24,17 @@ class UserAuthClass(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         response_msg = json.loads(response.data.decode("UTF-8"))
         self.assertIn("registered", response_msg["Message"])
+
+    def test_user_can_login(self):
+        """Test new user can login to the system."""
+        response = self.app.post("/api/auth/login",
+                                    data=json.dumps(dict(username="testusername",
+                                                    password="testpassword")),
+                                 content_type="application/json")
+        self.assertEqual(response.status_code, 404)
+        response_msg = json.loads(response.data.decode("UTF-8"))
+        self.assertIn("wrong username", response_msg["Message"])
+
+
+
 
