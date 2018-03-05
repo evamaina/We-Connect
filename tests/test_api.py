@@ -12,7 +12,7 @@ from src.api import app
 
 
 class UserAuthClass(unittest.TestCase):
-    def setup(self):
+    def setUp(self):
         self.app = app.test_client()
     """
     Test user registration and login.
@@ -27,5 +27,3 @@ class UserAuthClass(unittest.TestCase):
         response_msg = json.loads(response.data.decode("UTF-8"))
         self.assertIn("registered", response_msg["Message"])
 
-if __name__ == '__main__':
-    unittest.main()
