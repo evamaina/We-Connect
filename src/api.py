@@ -52,7 +52,7 @@ def login_user():
 
     """
     Business route and function 
-    register business: a method that adds a busness to the list
+    register business: a method that adds a busness to the list.
     """
 
 
