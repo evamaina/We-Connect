@@ -75,8 +75,9 @@ def register_business():
         business_list.append(business)
         return jsonify({'Message': 'business registered successfully'}), 201
 
-
-
+         """
+        tests that a business can be updated by the user
+        """
 
 @app.route('/api/businesses/<businessId>', methods=['PUT'])
 def update_business(businessId):
