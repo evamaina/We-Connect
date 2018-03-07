@@ -59,7 +59,7 @@ class UserAuthClass(unittest.TestCase):
                                     data=json.dumps(dict(businessId="testbusinessid",
                                                     country="testcountry")),
                                  content_type="application/json")
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 401)
         response_msg = json.loads(response.data.decode("UTF-8"))
         self.assertIn("Business does not exist", response_msg["Message"])
 
