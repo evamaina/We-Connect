@@ -168,7 +168,7 @@ def get_all_reviews():
 
 @app.route('/api/businesses', methods=['GET'])
 def retrive_all_businesses():
-    return jsonify(business.businesses), 
+    return jsonify(business.businesses), 200
 
 
 
