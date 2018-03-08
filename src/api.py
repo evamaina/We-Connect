@@ -144,15 +144,35 @@ def get_all_users():
     return jsonify(user.users), 200
 
 
+@app.route('/api/businesses/<businessId>/reviews', methods=['POST'])
+def add_review():
+    request_data = request.get_json()
+    id = len(review.reviews) + 1
+    username = request_data['username']
+    title = request_data['title']
+    review = request_data['review']
+
+    for x, k in enumerate(users):
+        if (k['username'] == username or k['review'] == review):
+            return jsonify({'Message': 'Review added successfully'}), 200
+    review.add_review(id, username, title, review)
+
+    return jsonify({
+        'Message': 'review created',
+        'user': review.reviews[-1]
+        }), 201
+
 @app.route('/api/businesses/<businessId>/reviews', methods=['GET'])
-def get_all_reviews(review_id):
-    return jsonify(user.users), 200
+def get_all_reviews():
+    return jsonify(review.reviews), 200
+
+@app.route('/api/businesses', methods=['GET'])
+def retrive_all_businesses():
+    return jsonify(business.businesses), 200
+
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
-
-
+     app.run(debug=True)
 
 
