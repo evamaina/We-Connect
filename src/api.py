@@ -27,9 +27,7 @@ register user: a method that adds a user to the system
 """
 user = User()
 reviews = Reviews()
-users = user.users
 business = Business()
-business_list = business.businesses
 review = Reviews()
 reviews = review.reviews
 
@@ -40,17 +38,22 @@ def register_user():
     username = request_data['username']
     email = request_data['email']
     is_valid_email = validate_email(email)
+
+    #check if user entered value
+    if not(username.strip()):
+        return jsonify({'Message': 'You must enter username, Cannot be blank'}),401
+
+
     if not (is_valid_email):
         return jsonify({'Message': 'Please enter correct emaill and try again '}),401
 
     password = request_data['password']
 
-    for x, k in enumerate(users):
+    for x, k in enumerate(user.users):
         if (k['username'] == username or k['email'] == email):
             return jsonify({'Message': 'User already exist'}), 200
+    
     user.create_user(id, username, email, password)
-
-
     return jsonify({
         'Message': 'User created',
         'user': user.users[-1]
@@ -63,7 +66,7 @@ def login_user():
     username_or_email = request_data['username_or_email']
     password = request_data['password']
 
-    for x, k in enumerate(users):
+    for x, k in enumerate(user.users):
         if (k['username'] == username_or_email or k['email'] == username_or_email) and k['password'] == password:
             if k['login_status']==True:
                 return jsonify({'Message': "User :" + username_or_email + " is already logged in"}), 201
@@ -77,7 +80,7 @@ def login_user():
 def logout_user():
     request_data = request.get_json()
     username_or_email = request_data['username_or_email']
-    for x, k in enumerate(users):
+    for x, k in enumerate(user.users):
         if (k['username'] == username_or_email or k['email'] == username_or_email) and k['login_status']==True:
             k['login_status'] = False
             return jsonify({'Message': 'User logged out successfully.'}), 200
@@ -87,40 +90,81 @@ def logout_user():
 @app.route('/api/business', methods=['POST'])
 def register_business():
     request_data = request.get_json()
-    business = {'business_name': request_data['business_name'], 'country': request_data['country'],
-                'id': len(business_list) + 1}
+    New_business = {'userid':request_data['userid'],'business_name': request_data['business_name'], 'country': request_data['country'],
+                'id': len(business.businesses) + 1}
     business_name = request_data['business_name']
+    userid=request_data['userid']
 
-    if (len(business_list) > 0):
-        for x, k in enumerate(business_list):
-            if k['business_name'] == business_name:
-                return jsonify({'Message': "business already exists, use a different name from : " + business_name}), 200
-            else:
-                business_list.append(business)
-                return jsonify({'Message': 'Business registered successfully'}), 201
-    else:
-        business_list.append(business)
-        return jsonify({'Message': 'business registered successfully'}), 201
+    for x, k in enumerate(user.users):
+        if(int(k['id'])==int(userid)) and k['login_status']==True:
+            for x, k in enumerate(business.businesses):
+                if k['business_name'] == business_name:
+                    return jsonify({'Message': "business already exists, use a different name from : " + business_name}), 200
+            business.businesses.append(New_business)
+            return jsonify({
+            'Message': 'Business created',
+            'Business': business.businesses[-1]
+            }), 201
+    
+        return jsonify({'Message': "user not logged in: " }), 200
+    return jsonify({'Message': "Create user account to register a business" }), 200
 
-        """
+       
+    """
         tests that a business can be updated by the user
-        """
+    """
 
 
 @app.route('/api/businesses/<businessId>', methods=['PUT'])
 def update_business(businessId):
     request_data = request.get_json()
-    business_Id = businessId
-    if (len(business_list) > 0):
-        for k in range(0, len(business_list)):
-            if business_list[k]['id'] == business_Id:
-                business_list[k]['business_name'] = request_data['business_name']
-                business_list[k]['country'] = request_data['country']
-                return jsonify({'Message': "business updated"}), 200
+    business_Id = int(businessId)
+    userId=request_data['userid']
 
-        return jsonify({'Message': 'Business does not exist'}), 404
-    else:
-        return jsonify({'Message': 'No business record in the system'}), 404
+    for x,k in enumerate(business.businesses):
+
+        if k['id'] ==business_Id and k['userid']==userId:
+            k['business_name'] = request_data['business_name']
+            k['country'] = request_data['country']
+            return jsonify({'Message': 'Business Updated'}), 201
+            # return jsonify({'Message': "business updated"}), 200
+
+    return jsonify({'Message': "User has no business record to update"}), 401
+
+
+
+@app.route('/api/businesses/<businessId>', methods=['GET'])
+def get_business(businessId):
+    business_Id = int(businessId)
+
+    for x,k in enumerate(business.businesses):
+
+        if k['id'] ==business_Id:
+            return jsonify({
+            'Message': 'Business',
+            'Business': business.businesses[x]
+            }), 201
+
+    return jsonify({'Message': "No business record found"}), 401
+
+
+
+
+@app.route('/api/businesses/<businessId>', methods=['DELETE'])
+def remove_business(businessId):
+    business_Id = int(businessId)
+
+    for x,k in enumerate(business.businesses):
+
+        if k['id'] ==business_Id:
+            del business.businesses[x]
+            return jsonify({
+            'Message': 'Business Removed Successifuly'
+            }), 201
+
+    return jsonify({'Message': "No business record found"}), 401
+
+
 
 
 @app.route('/api/auth/reset-password', methods=['POST'])
@@ -130,7 +174,7 @@ def reset_password():
     old_password = request_data['old_password']
     new_password = request_data['new_password']
 
-    for x, k in enumerate(users):
+    for x, k in enumerate(user.users):
         if k['username'] == username and k['password'] == old_password:
             k['password'] = new_password
 
@@ -165,10 +209,17 @@ def add_review():
 @app.route('/api/businesses/<businessId>/reviews', methods=['GET'])
 def get_all_reviews():
     return jsonify(review.reviews), 200
+    return jsonify({
+            'Message': 'Business Removed Successifuly'
+            }), 201
+    
 
 @app.route('/api/businesses', methods=['GET'])
 def retrive_all_businesses():
     return jsonify(business.businesses), 200
+    return jsonify({
+            'Message': 'Business Removed Successifuly'
+            }), 201
 
 
 
