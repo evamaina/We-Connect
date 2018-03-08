@@ -172,6 +172,18 @@ def retrive_all_businesses():
 
 
 
+@app.route('/api//businesses/<businessId>', methods=['DELETE'])
+def remove_business(business_name,businessId):
+    business = request_data(businessId)
+    if business:
+        if business_name['name'] == business['id']:
+            del business.businesses[business['name']]
+            return jsonify({"Message": "Business deleted successfully"}), 200
+        return jsonify({"Message": "You can only delete your own business!!"}), 401
+    return jsonify({"Message": "Business not found"}), 401
+        
+
+
 if __name__ == '__main__':
      app.run(debug=True)
 
