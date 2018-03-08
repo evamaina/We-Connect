@@ -1,9 +1,16 @@
+from flask import Flask, jsonify, request
+
 class Reviews():
-   count = 1
+    """initialize an empty dict to store reviews"""
+    def __init__(self):
+        self.reviews = []
 
-
-def __init__(self, review, user_id, business_id):
-    self.review = review
-    self.user_id = user_id
-    self.business_id = business_id
-    
+    def create_user(self, id, username, title, reviews):
+        new_reviews = {
+            'id': review_id,
+            'username': username,
+            'title':title,
+            'review':reviews
+            }
+        self.reviews.append(new_reviews)
+        return self.reviews
