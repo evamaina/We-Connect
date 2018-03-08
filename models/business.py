@@ -1,23 +1,18 @@
-class Business(object):
-    """This model keeps all the business data"""
-    self.businesses = {}
+from flask import Flask, jsonify, request
 
-    def __init__(self, business_name, busines_id, location, category):
-        self.business_name = business_name
-        self.busines_id = busines_id
-        self.location = location
-        self.category = category
+class Business():
 
+    def __init__(self):
+        self.businesses = []
 
-    def add_businesses(self, business_name, business_id, location, category):
-        """Adds a new business to businesses dictionary"""
+    def add_business(self, id, name, category, location):
         new_business = {
-            'busines_id': 1,
-            'business_name': shop,
-            'location': kenya,
-            'category': one,
-           
-        }
-        self.businesses[business_name] = new_business
-        return self.businesses
+           'id': id,
+           'name': name,
+           'category': category,
+           'location': location,
+           }
 
+        self.users.append(new_user)
+
+        return self.businesses
