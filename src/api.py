@@ -172,15 +172,16 @@ def retrive_all_businesses():
 
 
 
-@app.route('/api//businesses/<businessId>', methods=['DELETE'])
-def remove_business(business_name,businessId):
-    business = request_data(businessId)
-    if business:
-        if business_name['name'] == business['id']:
-            del business.businesses[business['name']]
-            return jsonify({"Message": "Business deleted successfully"}), 200
-        return jsonify({"Message": "You can only delete your own business!!"}), 401
-    return jsonify({"Message": "Business not found"}), 401
+# @app.route('/api/businesses/<businessId>', methods=['DELETE'])
+# def remove_business(businessId):
+#     business_id = request_data(businessId)
+
+#     for x, k in enumerate(business_list):
+#             if k['business_id'] == business_id:
+#                 del business.businesses[business['name']] 
+#                 return jsonify({'Message': "Business deleted successfully from : " + business_name}), 200
+#     return jsonify({"Message": "Business not found"}), 401
+
         
 
 
