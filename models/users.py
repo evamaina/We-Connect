@@ -1,16 +1,20 @@
+from flask import Flask, jsonify, request
+
+
 class User(object):
-    """The class data models. storea application data in data structures"""
-    self.users = {}
-    self.user_token = {}
 
-    def __init__(self, username, email, password):
-        self.username = username
-        self.email=email
-        self.password=password
+  def __init__(self):
 
-    def add_user(self, username, password, first_name, last_name, admin=False):
-        """Creates a new user and append to the list of users"""
-        data = {'id': uuid.uuid4(), 'username': username, 'password': password,
-                'first_name': first_name, "last_name": last_name, "admin": admin}
-        self.users[username] = data
-        return self.users
+    self.users = []
+  def create_user(self, id, username, email, password):
+    new_user = {
+           'id': id,
+           'username': username,
+           'email': email,
+           'password': password,
+           'login_status':False
+           }
+
+    self.users.append(new_user)
+
+    return self.users
