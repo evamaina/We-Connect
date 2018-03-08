@@ -5,12 +5,12 @@ class Business():
     def __init__(self):
         self.businesses = []
 
-    def add_business(self, id, name, category, location):
+    def add_business(self, id, name, category, country):
         new_business = {
            'id': id,
            'name': name,
            'category': category,
-           'location': location,
+           'country': country,
            }
 
         self.users.append(new_user)
