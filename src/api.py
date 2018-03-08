@@ -29,7 +29,6 @@ user = User()
 reviews = Reviews()
 business = Business()
 review = Reviews()
-reviews = review.reviews
 
 @app.route('/api/auth/register', methods=['POST'])
 def register_user():
@@ -206,34 +205,18 @@ def add_review():
         'user': review.reviews[-1]
         }), 201
 
+
+
 @app.route('/api/businesses/<businessId>/reviews', methods=['GET'])
 def get_all_reviews():
     return jsonify(review.reviews), 200
-    return jsonify({
-            'Message': 'Business Removed Successifuly'
-            }), 201
     
+
 
 @app.route('/api/businesses', methods=['GET'])
 def retrive_all_businesses():
     return jsonify(business.businesses), 200
-    return jsonify({
-            'Message': 'Business Removed Successifuly'
-            }), 201
-
-
-
-# @app.route('/api/businesses/<businessId>', methods=['DELETE'])
-# def remove_business(businessId):
-#     business_id = request_data(businessId)
-
-#     for x, k in enumerate(business_list):
-#             if k['business_id'] == business_id:
-#                 del business.businesses[business['name']] 
-#                 return jsonify({'Message': "Business deleted successfully from : " + business_name}), 200
-#     return jsonify({"Message": "Business not found"}), 401
-
-        
+    
 
 
 if __name__ == '__main__':
