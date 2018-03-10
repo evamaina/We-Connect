@@ -124,8 +124,6 @@ def update_business(businessId):
             k['country'] = request_data['country']
             return jsonify({'Message': 'Business Updated'}), 200
             
-        return jsonify({'Message': "No user business record"}), 200
-
     return jsonify({'Message': "no business record to update"}), 401
 
 
