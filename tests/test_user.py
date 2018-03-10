@@ -30,6 +30,8 @@ class UserAuthClass(unittest.TestCase):
         response_msg = json.loads(response.data.decode("UTF-8"))
         self.assertEqual("User created", response_msg["Message"])
 
+
+
     def test_user_email_validity(self):
         """
         Test new user uses a valid email.
@@ -43,7 +45,7 @@ class UserAuthClass(unittest.TestCase):
         response_msg = json.loads(response.data.decode("UTF-8"))
         self.assertIn("Please enter correct emaill and try again", response_msg["Message"])
 
-    def test_user_can_login(self):
+    def test_user_cannot_login_with_wrong_credential(self):
         """
         Test new user can login to the system.
         """
@@ -56,6 +58,59 @@ class UserAuthClass(unittest.TestCase):
         self.assertIn("wrong username", response_msg["Message"])
 
 
+
+    def test_user_not_logged_in(self):
+        """
+        Test new user can login to the system.
+        """
+        response = self.app.post("/api/auth/logout",
+                                    data=json.dumps(dict(username_or_email="testEmail")),
+                                 content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+        response_msg = json.loads(response.data.decode("UTF-8"))
+        self.assertIn("User is not logged in", response_msg["Message"])
+
+    def test_user_cannot_enter_blank(self):
+        """
+        Test new user can be registered to the system.
+        """
+        response = self.app.post("/api/auth/register",
+                                    data=json.dumps(dict(username="",
+                                        email="testEmail@gmail.com",
+                                                    password="testpassword")),
+                                 content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+        response_msg = json.loads(response.data.decode("UTF-8"))
+        self.assertEqual("You must enter username, Cannot be blank", response_msg["Message"])
+
+
+    def test_user_cannot_enter_whitespace(self):
+        """
+        Test new user can be registered to the system.
+        """
+        response = self.app.post("/api/auth/register",
+                                    data=json.dumps(dict(username="  ",
+                                        email="testEmail@gmail.com",
+                                                    password="testpassword")),
+                                 content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+        response_msg = json.loads(response.data.decode("UTF-8"))
+        self.assertEqual("You must enter username, Cannot be blank", response_msg["Message"])
+
+    def test_user_exists(self):
+        """
+        Test new user can be registered to the system.
+        """
+        response = self.app.post("/api/auth/register",
+                                    data=json.dumps(dict(username="testusername",
+                                        email="testEmail@gmail.com",
+                                                    password="testpassword")),
+                                 content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        response_msg = json.loads(response.data.decode("UTF-8"))
+        self.assertEqual("User already exist", response_msg["Message"])
+    
+    
     def test_user_can_reset_password(self):
         """
         Tests new user can add a business to the system.
@@ -69,16 +124,7 @@ class UserAuthClass(unittest.TestCase):
         response_msg = json.loads(response.data.decode("UTF-8"))
         self.assertIn("password-reset done Successifuly", response_msg["Message"])
 
-    def test_user_can_logout(self):
-        """
-        Test new user can login to the system.
-        """
-        response = self.app.post("/api/auth/logout",
-                                    data=json.dumps(dict(username_or_email="testEmail")),
-                                 content_type="application/json")
-        self.assertEqual(response.status_code, 401)
-        response_msg = json.loads(response.data.decode("UTF-8"))
-        self.assertIn("User is not logged in", response_msg["Message"])
+
 
 
    
