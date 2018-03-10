@@ -4,8 +4,8 @@ from flask import Flask, jsonify, request
 class User(object):
 
   def __init__(self):
-
-    self.users = []
+    self.users=[]
+    
   def create_user(self, id, username, email, password):
     new_user = {
            'id': id,
