@@ -68,10 +68,10 @@ def login_user():
     for x, k in enumerate(user.users):
         if (k['username'] == username_or_email or k['email'] == username_or_email) and k['password'] == password:
             if k['login_status']==True:
-                return jsonify({'Message': "User :" + username_or_email + " is already logged in"}), 201
+                return jsonify({'Message': "User :" + username_or_email + " is already logged in"}), 200
 
             k['login_status'] = True
-            return jsonify({'Message': "User :" + username_or_email + " logged in Successfuly"}), 201
+            return jsonify({'Message': "User :" + username_or_email + " logged in Successfuly"}), 200
     return jsonify({'Message': 'User does not exist or wrong username/password.'}), 401
 
 
@@ -94,20 +94,17 @@ def register_business():
     business_name = request_data['business_name']
     userid=request_data['userid']
 
-    for x, k in enumerate(user.users):
-        if(int(k['id'])==int(userid)) and k['login_status']==True:
-            for x, k in enumerate(business.businesses):
-                if k['business_name'] == business_name:
-                    return jsonify({'Message': "business already exists, use a different name from : " + business_name}), 200
-            business.businesses.append(New_business)
-            return jsonify({
-            'Message': 'Business created',
-            'Business': business.businesses[-1]
-            }), 201
-    
-        return jsonify({'Message': "user not logged in: " }), 200
-    return jsonify({'Message': "Create user account to register a business" }), 200
+    for x, k in enumerate(business.businesses):
+            if k['business_name'] == business_name:
+                return jsonify({'Message': "business already exists, use a different name from : " + business_name}), 200
 
+            
+    business.businesses.append(New_business)
+    return jsonify({
+    'Message': 'Business created',
+    'Business': business.businesses[-1]
+    }), 201
+    
        
     """
         tests that a business can be updated by the user
@@ -125,10 +122,11 @@ def update_business(businessId):
         if k['id'] ==business_Id and k['userid']==userId:
             k['business_name'] = request_data['business_name']
             k['country'] = request_data['country']
-            return jsonify({'Message': 'Business Updated'}), 201
-            # return jsonify({'Message': "business updated"}), 200
+            return jsonify({'Message': 'Business Updated'}), 200
+            
+        return jsonify({'Message': "No user business record"}), 200
 
-    return jsonify({'Message': "User has no business record to update"}), 401
+    return jsonify({'Message': "no business record to update"}), 401
 
 
 
