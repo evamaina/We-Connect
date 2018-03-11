@@ -26,9 +26,8 @@ Register route and function
 register user: a method that adds a user to the system
 """
 user = User()
-reviews = Reviews()
-business = Business()
 review = Reviews()
+business = Business()
 
 @app.route('/api/auth/register', methods=['POST'])
 def register_user():
@@ -184,22 +183,26 @@ def get_all_users():
 
 
 @app.route('/api/businesses/<businessId>/reviews', methods=['POST'])
-def add_review():
+def add_review(businessId):
     request_data = request.get_json()
-    id = len(review.reviews) + 1
-    username = request_data['username']
+    review_id = len(review.reviews) + 1
     title = request_data['title']
-    review = request_data['review']
+    new_review={'username':request_data['username'],'businessid': businessId, 
+                'body':request_data['body'],'title':title, 'review_id': review_id}
 
-    for x, k in enumerate(users):
-        if (k['username'] == username or k['review'] == review):
-            return jsonify({'Message': 'Review added successfully'}), 200
-    review.add_review(id, username, title, review)
+    for x, k in enumerate(user.users):
+        if (k['username'] == request_data['username']):
+            for x, k in enumerate(business.businesses):
+                if(int(businessId)== int(k['id'])):
+                    review.reviews.append(new_review)
+                    return jsonify({
+                    'Message': 'review created',
+                    'review': review.reviews[-1]
+                    }), 201
+            return jsonify({'Message': 'No business record found'}), 200
 
-    return jsonify({
-        'Message': 'review created',
-        'user': review.reviews[-1]
-        }), 201
+    return jsonify({'Message': 'Use user account that exist in the system'}), 401
+
 
 
 
