@@ -10,7 +10,7 @@ sys.path.insert(0, parentdir)
 
 from src.api import app
 from models.business import Business
-#from models.users import User
+from models.users import User
 
 
 
