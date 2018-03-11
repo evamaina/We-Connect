@@ -10,21 +10,31 @@ WeConnect provides a platform that brings businesses and individuals together by
 Run command nosetests tests --with-coverage
 
 ## Api Endpoints
-##Users
+## Users
+
 POST /api/v1/auth/register Creates a user account
+
 POST /api/v1/auth/login Logs in a user
+
 POST /api/v1/auth/logout Logout a user
+
 PUT /api/v1/auth/reset-password Resets user password
+
 ## Businesses
+
 POST /api/v1/businesses Register a new business
+
 GET /api/v1/businesses List all registered businesses
+
 PUT /api/v1/businesses/<businessId> Update business
+
 DELETE /api/v1/businesses/<businessId> delets a business
+
 ## Reviews
+
 POST /api/v1/businesses/<businessId>/reviews create a new review
+
 GET /api/v1/businesses/<businessId>/reviews Get reviews
-(Designs)HTML Pages included
-The following are the included HTML pages
 
 
 ### Author:
