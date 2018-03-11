@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 
-class Business():
+class Business(object):
 
     def __init__(self):
         self.businesses = []
