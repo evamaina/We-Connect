@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from werkzeug.security import generate_password_hash, check_password_hash
+# from werkzeug.security import generate_password_hash, check_password_hash
 from validate_email import validate_email
 import os
 import sys
@@ -29,6 +29,7 @@ user = User()
 review = Reviews()
 business = Business()
 
+
 @app.route('/api/auth/register', methods=['POST'])
 def register_user():
     request_data = request.get_json()
@@ -37,25 +38,25 @@ def register_user():
     email = request_data['email']
     is_valid_email = validate_email(email)
 
-    #check if user entered value
+    # check if user entered value
     if not(username.strip()):
-        return jsonify({'Message': 'You must enter username, Cannot be blank'}),401
-
+        return jsonify({'Message':
+                        'You must enter username, Cannot be blank'}), 401
 
     if not (is_valid_email):
-        return jsonify({'Message': 'Please enter correct emaill and try again '}),401
+        return jsonify({'Message':
+                        'Please enter correct emaill and try again '}), 401
 
     password = request_data['password']
 
     for x, k in enumerate(user.users):
         if (k['username'] == username or k['email'] == email):
             return jsonify({'Message': 'User already exist'}), 200
-    
+
     user.create_user(id, username, email, password)
     return jsonify({
         'Message': 'User created',
-        'user': user.users[-1]
-        }), 201
+        'user': user.users[-1]}), 201
 
 
 @app.route('/api/auth/login', methods=['POST'])
@@ -65,13 +66,18 @@ def login_user():
     password = request_data['password']
 
     for x, k in enumerate(user.users):
-        if (k['username'] == username_or_email or k['email'] == username_or_email) and k['password'] == password:
-            if k['login_status']==True:
-                return jsonify({'Message': "User :" + username_or_email + " is already logged in"}), 200
+        if (k['username'] == username_or_email or
+            k['email'] == username_or_email) and k['password'] == password:
+            if k['login_status'] == True:
+                return jsonify({'Message': "User :" +
+                                username_or_email +
+                                " is already logged in"}), 200
 
             k['login_status'] = True
-            return jsonify({'Message': "User :" + username_or_email + " logged in Successfuly"}), 200
-    return jsonify({'Message': 'User does not exist or wrong username/password.'}), 401
+            return jsonify({'Message': "User :" + username_or_email +
+                            " logged in Successfuly"}), 200
+    return jsonify({'Message':
+                    'User does not exist or wrong username/password.'}), 401
 
 
 @app.route('/api/auth/logout', methods=['POST'])
@@ -79,7 +85,8 @@ def logout_user():
     request_data = request.get_json()
     username_or_email = request_data['username_or_email']
     for x, k in enumerate(user.users):
-        if (k['username'] == username_or_email or k['email'] == username_or_email) and k['login_status']==True:
+        if (k['username'] == username_or_email or
+            k['email'] == username_or_email) and k['login_status'] == True:
             k['login_status'] = False
             return jsonify({'Message': 'User logged out successfully.'}), 200
     return jsonify({'Message': 'User is not logged in, please login.'}), 401
@@ -88,23 +95,24 @@ def logout_user():
 @app.route('/api/business', methods=['POST'])
 def register_business():
     request_data = request.get_json()
-    New_business = {'userid':request_data['userid'],'business_name': request_data['business_name'], 'country': request_data['country'],
-                'id': len(business.businesses) + 1}
+    New_business = {'userid': request_data['userid'],
+                    'business_name': request_data['business_name'],
+                    'country': request_data['country'],
+                    'id': len(business.businesses) + 1}
     business_name = request_data['business_name']
-    userid=request_data['userid']
+    userid = request_data['userid']
 
     for x, k in enumerate(business.businesses):
             if k['business_name'] == business_name:
-                return jsonify({'Message': "business already exists, use a different name from : " + business_name}), 200
+                return jsonify({'Message':
+                                "business already exists : " +
+                                business_name}), 200
 
-            
     business.businesses.append(New_business)
     return jsonify({
     'Message': 'Business created',
-    'Business': business.businesses[-1]
-    }), 201
-    
-       
+    'Business': business.businesses[-1]}), 201
+
     """
         tests that a business can be updated by the user
     """
@@ -114,26 +122,25 @@ def register_business():
 def update_business(businessId):
     request_data = request.get_json()
     business_Id = int(businessId)
-    userId=request_data['userid']
+    userId = request_data['userid']
 
-    for x,k in enumerate(business.businesses):
+    for x, k in enumerate(business.businesses):
 
-        if k['id'] ==business_Id and k['userid']==userId:
+        if k['id'] == business_Id and k['userid'] == userId:
             k['business_name'] = request_data['business_name']
             k['country'] = request_data['country']
             return jsonify({'Message': 'Business Updated'}), 200
-            
-    return jsonify({'Message': "no business record to update"}), 401
 
+    return jsonify({'Message': "no business record to update"}), 401
 
 
 @app.route('/api/businesses/<businessId>', methods=['GET'])
 def get_business(businessId):
     business_Id = int(businessId)
 
-    for x,k in enumerate(business.businesses):
+    for x, k in enumerate(business.businesses):
 
-        if k['id'] ==business_Id:
+        if k['id'] == business_Id:
             return jsonify({
             'Message': 'Business',
             'Business': business.businesses[x]
@@ -142,23 +149,19 @@ def get_business(businessId):
     return jsonify({'Message': "No business record found"}), 401
 
 
-
-
 @app.route('/api/businesses/<businessId>', methods=['DELETE'])
 def remove_business(businessId):
     business_Id = int(businessId)
 
-    for x,k in enumerate(business.businesses):
+    for x, k in enumerate(business.businesses):
 
-        if k['id'] ==business_Id:
+        if k['id'] == business_Id:
             del business.businesses[x]
             return jsonify({
             'Message': 'Business Removed Successifuly'
             }), 201
 
     return jsonify({'Message': "No business record found"}), 401
-
-
 
 
 @app.route('/api/auth/reset-password', methods=['POST'])
@@ -172,9 +175,12 @@ def reset_password():
         if k['username'] == username and k['password'] == old_password:
             k['password'] = new_password
 
-            return jsonify({'Message': "User :" + username + " password-reset done Successifuly"}), 200
+            return jsonify({'Message':
+                            "User :" + username +
+                            " password-reset done Successifuly"}), 200
     else:
-        return jsonify({'Message': 'Enter the new password and try again.'}), 401
+        return jsonify({'Message':
+                        'Enter the new password and try again.'}), 401
 
 
 @app.route('/api/auth/users', methods=['GET'])
@@ -187,13 +193,15 @@ def add_review(businessId):
     request_data = request.get_json()
     review_id = len(review.reviews) + 1
     title = request_data['title']
-    new_review={'username':request_data['username'],'businessid': businessId, 
-                'body':request_data['body'],'title':title, 'review_id': review_id}
+    new_review = {'username': request_data['username'],
+                  'businessid': businessId,
+                  'body': request_data['body'],
+                  'title': title, 'review_id': review_id}
 
     for x, k in enumerate(user.users):
         if (k['username'] == request_data['username']):
             for x, k in enumerate(business.businesses):
-                if(int(businessId)== int(k['id'])):
+                if(int(businessId) == int(k['id'])):
                     review.reviews.append(new_review)
                     return jsonify({
                     'Message': 'review created',
@@ -201,24 +209,21 @@ def add_review(businessId):
                     }), 201
             return jsonify({'Message': 'No business record found'}), 200
 
-    return jsonify({'Message': 'Use user account that exist in the system'}), 401
-
-
+    return jsonify({'Message':
+                    'Use user account that exist in the system'}), 401
 
 
 @app.route('/api/businesses/<businessId>/reviews', methods=['GET'])
 def get_all_reviews():
     return jsonify(review.reviews), 200
-    
 
 
 @app.route('/api/businesses', methods=['GET'])
 def retrive_all_businesses():
     return jsonify(business.businesses), 200
-    
 
 
 if __name__ == '__main__':
-     app.run(debug=True)
+    app.run(debug=True)
 
 
