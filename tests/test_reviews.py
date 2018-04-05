@@ -56,7 +56,7 @@ class TestReviewsClassFunctionality(unittest.TestCase):
         Tests new user cannnot add a review without user account
         """
         response = self.app.post("/api/businesses/1/reviews",
-                                 data=json.dumps(dict(username="testusername",
+                                 data=json.dumps(dict(username="testusername3",
                                                       title="title1",
                                                       body="review")),
                                  content_type="application/json")
