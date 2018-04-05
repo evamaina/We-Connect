@@ -22,8 +22,8 @@ class UserAuthClass(unittest.TestCase):
         Test new user can be registered to the system.
         """
         response = self.app.post("/api/auth/register",
-                                 data=json.dumps(dict(username="testusername",
-                                                      email="testEmail@gmail.com",
+                                 data=json.dumps(dict(username="testusername2",
+                                                      email="testEmail@gmail2.com",
                                                       password="testpassword")),
                                  content_type="application/json")
         self.assertEqual(response.status_code, 201)
@@ -95,13 +95,13 @@ class UserAuthClass(unittest.TestCase):
         Test new user can login to the system.
         """
         self.app.post("/api/auth/register",
-                      data=json.dumps(dict(username="testusername",
-                                           email="testEmail@gmail.com",
+                      data=json.dumps(dict(username="testusername1",
+                                           email="testEmail1@gmail.com",
                                            password="testpassword")),
                       content_type="application/json")
         response = self.app.post("/api/auth/login",
                                  data=json.dumps(dict(
-                                     username_or_email="testEmail@gmail.com",
+                                     username_or_email="testEmail1@gmail.com",
                                      password="testpassword")),
                                  content_type="application/json")
         self.assertEqual(response.status_code, 200)
@@ -243,3 +243,6 @@ class UserAuthClass(unittest.TestCase):
                                 content_type="application/json")
         self.assertEqual(response.status_code, 200)
         response_msg = json.loads(response.data.decode("UTF-8"))
+
+    #def tearDown(self):
+
