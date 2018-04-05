@@ -16,12 +16,15 @@ from models.users import User
 class TestBusinessClassFunctionality(unittest.TestCase):
 
     def setUp(self):
+        
         self.app = app.test_client()
+        self.app.testing = True
 
     def test_register_business(self):
         """
         Tests new user can add a business to the system.
         """
+        
         response = self.app.post("/api/business",
                                  data=json.dumps(dict(userid=1,
                                  business_name="testbusiness_name",
@@ -31,10 +34,16 @@ class TestBusinessClassFunctionality(unittest.TestCase):
         response_msg = json.loads(response.data.decode("UTF-8"))
         self.assertIn("Business created", response_msg["Message"])
 
+
     def test_register_business_exist(self):
         """
         Tests business already exists to the system.
         """
+        self.app.post("/api/business",
+                                 data=json.dumps(dict(userid=1,
+                                 business_name="testbusiness_name",
+                                 country="test_country")),
+                                 content_type="application/json")
         response = self.app.post("/api/business",
                                  data=json.dumps(dict(business_name=
                                  "testbusiness_name",
@@ -48,42 +57,45 @@ class TestBusinessClassFunctionality(unittest.TestCase):
 
     def test_blank_business_name(self):
         """
-        Tests a user can update his business to the system.
+        Tests a user cannot use blank business name.
         """
-        response = self.app.post("/api/businesses/1",
-                                 data=json.dumps(dict(business_name=
-                                 "",
-                                 country="rwanda", userid=1)),
+        # self.app.post("/api/auth/register",
+        #                          data=json.dumps(dict(username="testusername",
+        #                                               email="testEmail@gmail.com",
+        #                                               password="testpassword")),
+        #                          content_type="application/json")
+        # self.app.post("/api/auth/login",
+        #                          data=json.dumps(dict(
+        #                              username_or_email="testEmail@gmail.com",
+        #                              password="testpassword")),
+        #                          content_type="application/json")
+        # self.app.post("/api/business",
+        #                          data=json.dumps(dict(userid=1,
+        #                          business_name="testbusiness_name",
+        #                          country="test_country")),
+        #                          content_type="application/json")
+
+        response = self.app.post("/api/business",
+                                 data=json.dumps(dict(business_name="",
+                                 country="test_country", userid=1)),
                                  content_type="application/json")
-        self.assertEqual(response.status_code, 401)
-        response_msg = json.loads(response.data.decode("UTF-8"))
-        self.assertIn("Cannot be blank", response_msg["Message"])
+        self.assertEqual(response.status_code, 405)
+        self.assertIn("Cannot be blank", str(response.data))
+        # response_msg = str(json.loads(response.data.decode("UTF-8")))
+        # self.assertIn("Cannot be blank", response_msg["Message"])
 
     def test_user_cannot_use_whitespace(self):
         """
         Tests a user can update his business to the system.
         """
-        response = self.app.post("/api/businesses/1",
+        response = self.app.post("/api/business",
                                  data=json.dumps(dict(business_name=
-                                 "",
+                                 "   ",
                                  country="rwanda", userid=1)),
                                  content_type="application/json")
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 405)
         response_msg = json.loads(response.data.decode("UTF-8"))
         self.assertIn("Cannot be blank", response_msg["Message"])
-
-    def test_no_business_record_to_update(self):
-        """
-        Tests a user can update his business to the system.
-        """
-        response = self.app.post("/api/businesses/5",
-                                 data=json.dumps(dict(business_name=
-                                 "test",
-                                 country="kenya", userid=1)),
-                                 content_type="application/json")
-        self.assertEqual(response.status_code, 401)
-        response_msg = json.loads(response.data.decode("UTF-8"))
-        self.assertIn("no business record to update", response_msg["Message"])
 
 
 
@@ -91,6 +103,11 @@ class TestBusinessClassFunctionality(unittest.TestCase):
         """
         Tests a user can update his business to the system.
         """
+        self.app.post("/api/business",
+                                 data=json.dumps(dict(userid=1,
+                                 business_name="testbusiness_name",
+                                 country="test_country")),
+                                 content_type="application/json")
         response = self.app.put("/api/businesses/1",
                                  data=json.dumps(dict(business_name=
                                  "testbusiness",
@@ -115,10 +132,15 @@ class TestBusinessClassFunctionality(unittest.TestCase):
         response_msg = json.loads(response.data.decode("UTF-8"))
         self.assertIn("no business record to update", response_msg["Message"])
 
-    def test_user_can_get_business_by_id(self):
+    def test_user_can_get_one_business_by_id(self):
         """
         Tests a user can update his business to the system.
         """
+        self.app.post("/api/business",
+                                 data=json.dumps(dict(userid=1,
+                                 business_name="testbusiness_name",
+                                 country="test_country")),
+                                 content_type="application/json")
         response = self.app.get("/api/businesses/1",
                                  data=json.dumps(dict(business_Id=1)),
                                  content_type="application/json")
@@ -126,7 +148,7 @@ class TestBusinessClassFunctionality(unittest.TestCase):
         response_msg = json.loads(response.data.decode("UTF-8"))
         self.assertIn("Business found", response_msg["Message"])
 
-    def test_business_by_id_does_not_exist(self):
+    def test_user_cannot_get_business_by_id_that_does_not_exist(self):
         """
         Tests a user can update his business to the system.
         """
@@ -141,6 +163,11 @@ class TestBusinessClassFunctionality(unittest.TestCase):
         """
         Tests a user can update his business to the system.
         """
+        self.app.post("/api/business",
+                                 data=json.dumps(dict(userid=1,
+                                 business_name="testbusiness_name",
+                                 country="test_country")),
+                                 content_type="application/json")
         response = self.app.delete("/api/businesses/1",
                                  data=json.dumps(dict(business_Id=1)),
                                  content_type="application/json")
@@ -157,7 +184,7 @@ class TestBusinessClassFunctionality(unittest.TestCase):
                                  content_type="application/json")
         self.assertEqual(response.status_code, 404)
         response_msg = json.loads(response.data.decode("UTF-8"))
-        self.assertIn("No business record to remove", response_msg["Message"])
+        self.assertIn("No business record found to remove", response_msg["Message"])
 
     def test_user_can_retrieve_all_business(self):
         """
@@ -168,10 +195,10 @@ class TestBusinessClassFunctionality(unittest.TestCase):
                                  content_type="application/json")
         self.assertEqual(response.status_code, 200)
         response_msg = json.loads(response.data.decode("UTF-8"))
-        self.assertIn("message", response_msg["Message"])
+        
     
     
-    
+
 
 
 
