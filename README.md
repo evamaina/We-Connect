@@ -1,10 +1,10 @@
 # We-Connect
+[![Build Status](https://travis-ci.org/evamaina/We-Connect.svg?branch=Challenge2)](https://travis-ci.org/evamaina/We-Connect)
+[![Coverage Status](https://coveralls.io/repos/github/evamaina/We-Connect/badge.svg?branch=master)](https://coveralls.io/github/evamaina/We-Connect?branch=master)
 ###### Author:
 
 Eva Maina
 =======
-[![Build Status](https://travis-ci.org/evamaina/We-Connect.svg?branch=Challenge2)](https://travis-ci.org/evamaina/We-Connect)
-[![Coverage Status](https://coveralls.io/repos/github/evamaina/We-Connect/badge.svg?branch=master)](https://coveralls.io/github/evamaina/We-Connect?branch=master)
 
 WeConnect provides a platform that brings businesses and individuals together. This platform creates awareness for businesses and gives the users the ability to write reviews about the businesses they have interacted with.  
 
