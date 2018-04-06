@@ -7,4 +7,6 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
-  - pytest # or py.test for Python versions 3.5 and belowgit
+  - nosetests --with-coverage # or py.test for Python versions 3.5 and belowgit
+after_success:
+  - coveralls
