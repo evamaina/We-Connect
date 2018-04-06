@@ -56,24 +56,7 @@ class TestBusinessClassFunctionality(unittest.TestCase):
 
 
     def test_blank_business_name(self):
-        """
-        Tests a user cannot use blank business name.
-        """
-        # self.app.post("/api/auth/register",
-        #                          data=json.dumps(dict(username="testusername",
-        #                                               email="testEmail@gmail.com",
-        #                                               password="testpassword")),
-        #                          content_type="application/json")
-        # self.app.post("/api/auth/login",
-        #                          data=json.dumps(dict(
-        #                              username_or_email="testEmail@gmail.com",
-        #                              password="testpassword")),
-        #                          content_type="application/json")
-        # self.app.post("/api/business",
-        #                          data=json.dumps(dict(userid=1,
-        #                          business_name="testbusiness_name",
-        #                          country="test_country")),
-        #                          content_type="application/json")
+       
 
         response = self.app.post("/api/business",
                                  data=json.dumps(dict(business_name="",
