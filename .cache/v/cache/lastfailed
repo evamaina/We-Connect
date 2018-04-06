@@ -1,0 +1,3 @@
+{
+  "tests/test_api.py::UserAuthClass::test_user_can_register": true
+}
