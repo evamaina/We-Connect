@@ -1,5 +1,10 @@
 # We-Connect
-<<<<<<< HEAD
+[![Build Status](https://travis-ci.org/evamaina/We-Connect.svg?branch=Challenge2)](https://travis-ci.org/evamaina/We-Connect)
+[![Coverage Status](https://coveralls.io/repos/github/evamaina/We-Connect/badge.svg?branch=master)](https://coveralls.io/github/evamaina/We-Connect?branch=master)
+###### Author:
+
+Eva Maina
+=======
 
 WeConnect provides a platform that brings businesses and individuals together. This platform creates awareness for businesses and gives the users the ability to write reviews about the businesses they have interacted with.  
 
@@ -31,17 +36,6 @@ The templates make use of HTML and Css and will accomadate future integration of
 3. Proceed to make modifications to your fork.
 
 4. Send pull request from your fork's branch to my master branch.
-
-###### Author:
-
-Eva Maina
-=======
-[![Build Status](https://travis-ci.org/evamaina/We-Connect.svg?branch=Challenge2)](https://travis-ci.org/evamaina/We-Connect)
-[![Coverage Status](https://coveralls.io/repos/github/evamaina/We-Connect/badge.svg?branch=master)](https://coveralls.io/github/evamaina/We-Connect?branch=master)
-
-WeConnect provides a platform that brings businesses and individuals together by creating awareness for businesses and giving the users the ability to write reviews about the businesses they have interacted with.
-
-
 
 ## Testing
 Run command nosetests tests --with-coverage
